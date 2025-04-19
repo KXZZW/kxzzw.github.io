@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vector Shop</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #0e0e11;
+      color: #f4f4f4;
+      overflow-x: hidden;
+    }
+
+    #bg-video {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      min-width: 100%;
+      min-height: 100%;
+      z-index: -1;
+      object-fit: cover;
+      filter: blur(2px) brightness(0.5);
+    }
+
+    .tab-nav {
+      display: flex;
+      justify-content: space-around;
+      background: #1a1a1f;
+      padding: 1rem;
+      border-bottom: 2px solid #6f42c1;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .tab-nav a.tab-button {
+      text-decoration: none;
+      background: none;
+      border: none;
+      color: #f4f4f4;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.3s;
+      padding: 0.5rem 1rem;
+    }
+
+    .tab-nav a.tab-button:hover,
+    .tab-nav a.tab-button.active {
+      color: #6f42c1;
+      text-shadow: 0 0 5px #6f42c1aa;
+      border-bottom: 2px solid #6f42c1;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 3rem 1rem;
+    }
+
+    h1.typing {
+      font-size: 2.5rem;
+      border-right: 3px solid #fff;
+      white-space: nowrap;
+      overflow: hidden;
+      width: 0;
+      animation: typing 4s steps(40, end) forwards, blink 0.75s step-end infinite;
+    }
+
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+
+    @keyframes blink {
+      50% { border-color: transparent }
+    }
+
+    .box {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 2rem;
+      margin-top: 2rem;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .box:hover {
+      transform: scale(1.02);
+    }
+
+    .input-group {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    input[type="number"], select {
+      padding: 0.75rem;
+      border-radius: 10px;
+      border: none;
+      background: #1a1a1f;
+      color: #fff;
+      width: 100%;
+      max-width: 200px;
+    }
+
+    button {
+      padding: 0.75rem 1.5rem;
+      background: #6f42c1;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #5a32a3;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Video -->
+  <video autoplay muted loop id="bg-video">
+    <source src="background.mp4" type="video/mp4">
+    Your browser does not support HTML5 video.
+  </video>
+
+  <!-- Navigation Tabs -->
+  <div class="tab-nav">
+    <a href="index.html" class="tab-button active">Shop</a>
+    <a href="reviews.html" class="tab-button">Reviews</a>
+    <a href="socials.html" class="tab-button">Socials</a>
+  </div>
+
+  <div class="container">
+    <!-- Shop Heading -->
+    <div id="shop" class="tab-content active">
+      <h1 class="typing">Welcome to Vector — #1 pp logs shop / plug</h1>
+
+      <!-- Currency Converter Box -->
+      <div class="box">
+        <h2>Currency Converter</h2>
+        <div class="input-group">
+          <input type="number" id="amount" placeholder="Amount" />
+          <select id="fromCurrency">
+            <option value="USD">USD</option>
+            <option value="EUR">EUR</option>
+            <option value="GBP">GBP</option>
+          </select>
+          <span>to</span>
+          <select id="toCurrency">
+            <option value="BTC">BTC</option>
+            <option value="LTC">LTC</option>
+            <option value="ETH">ETH</option>
+          </select>
+          <button onclick="handleConversion()">Convert</button>
+        </div>
+      </div>
+
+      <!-- PayPal Logs Box -->
+      <div class="box">
+        <h2>PayPal Logs</h2>
+        <div class="input-group">
+          <select id="paypalCountry">
+            <option value="us">🇺🇸 US Logs</option>
+            <option value="uk">🇬🇧 UK Logs</option>
+            <option value="ca">🇨🇦 Canada Logs</option>
+            <option value="au">🇦🇺 Australia Logs</option>
+            <option value="eu">🇪🇺 EU Logs</option>
+          </select>
+          <input type="number" id="paypalQty" placeholder="Quantity" min="1" />
+          <button onclick="buyPayPalLogs()">Buy Logs</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Script -->
+  <script>
+    function handleConversion() {
+      const amount = document.getElementById('amount').value;
+      const from = document.getElementById('fromCurrency').value;
+      const to = document.getElementById('toCurrency').value;
+
+      if (!amount || amount <= 0) {
+        alert("Please enter a valid amount.");
+        return;
+      }
+
+      alert(`Converting ${amount} ${from} to ${to}...`);
+    }
+
+    function buyPayPalLogs() {
+      const country = document.getElementById('paypalCountry').value;
+      const qty = document.getElementById('paypalQty').value;
+      if (!qty || qty <= 0) {
+        alert("Please enter a valid quantity.");
+        return;
+      }
+
+      const countryLabel = {
+        us: "US",
+        uk: "UK",
+        ca: "Canada",
+        au: "Australia",
+        eu: "Europe"
+      };
+
+      alert(`Buying ${qty} PayPal logs from ${countryLabel[country]}. Processing...`);
+    }
+  </script>
+
+</body>
+</html>

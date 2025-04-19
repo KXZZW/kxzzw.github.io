@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Our Socials</title>
+  <!-- Font Awesome Link for Icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #0e0e11;
+      color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    /* Container Styling */
+    .container {
+      max-width: 1000px;
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+      opacity: 0;
+      animation: fadeIn 1.5s forwards, scaleUp 0.6s ease-in-out forwards;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 3rem;
+    }
+
+    /* Fade In Animation */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* Scale Up Animation */
+    @keyframes scaleUp {
+      from {
+        transform: scale(0.8);
+      }
+      to {
+        transform: scale(1);
+      }
+    }
+
+    /* Social Links Styling */
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      color: #fff;
+      animation: fadeIn 1.5s 0.5s forwards;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      opacity: 0;
+      animation: fadeIn 1.5s 1s forwards;
+    }
+
+    .social-links a {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+      width: 70px;
+      height: 70px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 50%;
+      color: #fff;
+      font-size: 1.5rem;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Social Icon Glowing Colors */
+    .discord:hover {
+      background: #7289da;
+      box-shadow: 0 0 20px #7289da;
+      transform: scale(1.1);
+    }
+
+    .youtube:hover {
+      background: #ff0000;
+      box-shadow: 0 0 20px #ff0000;
+      transform: scale(1.1);
+    }
+
+    .tiktok:hover {
+      background: linear-gradient(45deg, #ff00a1, #00f5ff);
+      box-shadow: 0 0 20px #ff00a1, 0 0 20px #00f5ff;
+      transform: scale(1.1);
+    }
+
+    /* Icon Rotation Animation */
+    .social-links a i {
+      transition: transform 0.3s ease;
+    }
+
+    .social-links a:hover i {
+      transform: rotate(360deg);
+    }
+
+    /* Logo on Right */
+    .logo {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      width: 150px;
+      height: auto;
+      animation: fadeIn 2s forwards;
+    }
+
+    footer {
+      margin-top: 3rem;
+      font-size: 0.9rem;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div>
+      <h1>Follow Us on Social Media</h1>
+      
+      <div class="social-links">
+        <a href="https://discord.gg/JXbJQTQwKj" target="_blank" class="discord">
+          <i class="fab fa-discord"></i>
+        </a>
+        <a href="https://www.youtube.com/@38xcc" target="_blank" class="youtube">
+          <i class="fab fa-youtube"></i>
+        </a>
+        <a href="https://www.tiktok.com/@m.2ny3?is_from_webapp=1&sender_device=pc" target="_blank" class="tiktok">
+          <i class="fab fa-tiktok"></i>
+        </a>
+      </div>
+
+      <footer>
+        <p>Stay connected with us for the latest updates and offers.</p>
+      </footer>
+    </div>
+
+    <!-- Logo (Positioned on the Right) -->
+  </div>
+
+</body>
+</html>

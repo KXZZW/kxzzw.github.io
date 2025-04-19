@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reviews - Vector Shop</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #0e0e11;
+      color: #f4f4f4;
+      overflow-x: hidden;
+    }
+
+    #bg-video {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      min-width: 100%;
+      min-height: 100%;
+      z-index: -1;
+      object-fit: cover;
+      filter: blur(2px) brightness(0.5);
+    }
+
+    .tab-nav {
+      display: flex;
+      justify-content: space-around;
+      background: #1a1a1f;
+      padding: 1rem;
+      border-bottom: 2px solid #6f42c1;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .tab-nav a.tab-button {
+      text-decoration: none;
+      background: none;
+      border: none;
+      color: #f4f4f4;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.3s;
+      padding: 0.5rem 1rem;
+    }
+
+    .tab-nav a.tab-button:hover,
+    .tab-nav a.tab-button.active {
+      color: #6f42c1;
+      text-shadow: 0 0 5px #6f42c1aa;
+      border-bottom: 2px solid #6f42c1;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 3rem 1rem;
+    }
+
+    .box {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 2rem;
+      margin-top: 2rem;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .box:hover {
+      transform: scale(1.02);
+    }
+
+    .review {
+      background: #1e1e23;
+      border-left: 5px solid #6f42c1;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 10px;
+      transition: 0.3s;
+    }
+
+    .review:hover {
+      transform: scale(1.01);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Video -->
+  <video autoplay muted loop id="bg-video">
+    <source src="background.mp4" type="video/mp4">
+    Your browser does not support HTML5 video.
+  </video>
+
+  <!-- Tab Navigation -->
+  <div class="tab-nav">
+    <a href="index.html" class="tab-button">Shop</a>
+    <a href="reviews.html" class="tab-button active">Reviews</a>
+    <a href="socials.html" class="tab-button">Socials</a>
+  </div>
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="box">
+      <h2>Our Reviews</h2>
+      <div id="reviewsContainer"></div>
+    </div>
+  </div>
+
+  <!-- Script for Dynamic Reviews -->
+
+  <script>
+
+const usernames = [
+"vortex", "dr1pz", "nozzy", "kairo", "glitchgod", "plugz", "recon", "snipes", "blazr",
+"riftz", "nova", "dex", "zyph", "liquidx", "revamp", "nexo", "vaultz", "qtwave", "crypton",
+"axion", "clutchz", "venox", "thrashr", "xplode", "krptic", "nullz", "echozn", "duskxr", "nytro",
+"phaserz", "voidex", "slayrz", "voltix", "gl1tchz", "fluxo", "venin", "skriptz", "xript", "cyphxr",
+"stormiq", "blitzn", "tremorx", "nexal", "haxxen", "frostiq", "snypz", "razik", "neonvr", "tr1pz",
+"vaydr", "kryptiq", "zynthr", "frozyn", "v0idrx", "gr1mz", "flashiq", "bytezr", "xr0ne", "qubitz",
+"mirrorez", "laggxr", "riftik", "t3kkz", "z3nox", "driftrz", "stealz", "cryptiq", "n0madz", "reaxx",
+"sc0pe", "strobez", "fraggxr", "mystiqz", "dopetrip", "kryzo", "skyviz", "gr1mvr", "r3boot", "xraye",
+"shadex", "xenoz", "cryptex", "gl4ssy", "trixvr", "traxxen", "novix", "fluxer", "vycez", "zonex",
+"glowrx", "nebulx", "deadshotz", "necrox", "vibron", "quantyx", "hazyr", "tekloh", "loopzr", "r1skz",
+"dashxr", "fr1ction", "pixelz", "volt3x", "fadeox", "bl1nkr", "shockiq", "nexiq", "kavox", "zaydr",
+"staticz", "wavezr", "veniq", "dreamxr", "hackiq", "zyptr", "blazik", "jammerz", "r3actz", "opticxz",
+"cybrix", "w1cked", "dynoq", "killtrix", "datastreamz", "envyx", "crushzr", "sm0kez", "furyx", "ruptxr",
+"clypse", "gridz", "plazma", "ionex", "bashiq", "ghostiq", "m3ltz", "obl1vz", "shadevr", "dizzl3",
+"ragefx", "splycez", "flarex", "noctyz", "z3rkon", "jukez", "lockxr", "st0rmz", "sn0wvr", "snarez",
+"darkiq", "roarix", "d3cipher", "cha0z", "nulliq", "gl1dez", "aimvr", "noxiq", "f1uxz", "arcen",
+"vaypz", "warphz", "k1netix", "d1zzyx", "venmor", "m0dify", "soulzr", "d3toniq", "scyphxr", "fr0str",
+"ov3rlap", "pr0tonz", "lazik", "strikevr", "burstxz", "f1icker", "cl0udr", "t1lted", "dropl3t", "madzxr",
+"buzzik", "morphiq", "pixelcraze", "w1r3d", "clippxr", "xoner", "nimbuz", "visiqn", "corexz", "opticraze",
+"pr1smz", "riotz", "malvox", "ztrikz", "cryptxz", "faderiq", "swayzr", "revoxr", "chillix", "k1llnet",
+"r3boot", "recon", "zonex", "liquidx", "nimbuz", "noctyz", "glitchgod", "z3rkon", "datastreamz", "zyph",
+"blazr", "xplode", "stormiq", "glitchgod", "snypz", "razik", "neonvr", "frostiq", "furyx", "kryzo",
+"phantomz", "tremorx", "clutchz", "venox", "voidex", "staticz", "vibron", "dashxr", "soulzr", "arcen",
+"stormiq", "fluxo", "vaydr", "swayzr", "glowrx", "r1skz", "echozn", "crushzr", "sm0kez", "ripz",
+"shadex", "mystiqz", "fluxer", "venox", "voltix", "pulsar", "noxiq", "m3ltz", "blastz", "gr1mz",
+"gridz", "fraggxr", "killtrix", "morphiq", "glitchrx", "darkiq", "cha0z", "staticxr", "r1ftrz", "veniq",
+"splycez", "neonvr", "nexal", "scr1ptz", "b1aze", "cyberx", "tekloh", "strikevr", "frostiq", "furyx",
+"ragefx", "opt1c", "blitzn", "sm0kez", "wavezr", "r3actz", "flarex", "kavox", "quantyx", "qubitz",
+"frozenx", "tremorx", "zephyr", "venmor", "gr1mvr", "dizzl3", "phasez", "cyberiq", "ionex", "malvox",
+"bl1nkr", "cr1ptiq", "razik", "warphz", "nebulx", "flashiq", "tr1pz", "gl4ssy", "fluxer", "scr1ptz",
+"blastz", "zaydr", "jammerz", "r3boot", "trixvr", "cryptiq", "stormiq", "phaserz", "bytezr", "hazyr",
+"vaypz", "strikevr", "skyviz", "shadex", "blitzn", "blazik", "snarez", "fluxiq", "vortexr", "malvox",
+"clutchx", "opt1c", "r1ftrz", "faderiq", "glowrx", "nebulx", "razik", "fr0str", "jynxr", "burstxz"
+  ];
+
+  const reviews = [
+        "Super fast and legit.",
+        "Converted crypto in seconds, 10/10.",
+        "PayPal logs were clean and verified.",
+        "Middleman service was smooth and professional.",
+        "Legit seller for real.",
+        "Will use again, trustworthy and quick!",
+        "No cap, this is the best plug I've used.",
+        "Service too fast, didn’t even blink.",
+        "Feels like I’m robbing banks with these logs.",
+        "Crypto swap was smoother than my last date.",
+        "Instant delivery, no bs.",
+    "Very helpful, even late night.",
+    "Clean logs, 5/5.",
+    "Didn’t expect it to be this easy.",
+    "Friendly and fast.",
+    "One of the best plugs on the scene.",
+    "Will return for sure.",
+    "Converted my crypto in under 2 min.",
+    "Actually legit.",
+    "No cap, smoothest transaction I had.",
+    "Sent cash, got logs instantly.",
+    "Solid service, no delays.",
+    "Professional and reliable.",
+    "Better than most sellers.",
+    "Super responsive, huge W.",
+    "Trust this one — real dude.",
+    "Been using them for months. Never failed.",
+    "Site is clean and easy to use.",
+    "A1 customer service fr.",
+    "This the one. For real.",
+    "Came through even on holiday.",
+    "24/7 support was 🔥",
+    "Everything worked exactly as promised.",
+    "Never had a single issue here.",
+    "Go-to plug no hesitation.",
+    "Vouched 100%.",
+    "Love how fast it is.",
+    "Everything I needed was handled.",
+    "10/10 experience every time.",
+    "Wish I found them earlier.",
+    "Top-tier support and products.",
+    "You get what you pay for. Worth it.",
+    "Clean, discreet, and quick.",
+    "Flawless execution as always.",
+    "Plugged me in real quick.",
+    "No stress, no wait, just done.",
+    "Fastest crypto swap I’ve done.",
+    "Even helped me step-by-step.",
+    "Was nervous but all went great.",
+    "Super easy to use. No tech skills needed.",
+    "Came for one, bought five.",
+    "Referral bonus was a nice surprise.",
+    "Really chill to work with.",
+    "Got the logs fast. No issues.",
+    "This the future of quick buys.",
+    "Great UX. Quick checkout.",
+    "Appreciate the low fees.",
+    "One of the few I trust.",
+    "My guy for real.",
+    "Trust and transparency."
+      ];
+
+      const reviewContainer = document.getElementById('reviewsContainer');
+  const usedUsernames = new Set();
+
+  function getRandomUniqueUsername() {
+    if (usedUsernames.size >= usernames.length) return null;
+    let name;
+    do {
+      name = usernames[Math.floor(Math.random() * usernames.length)];
+    } while (usedUsernames.has(name));
+    usedUsernames.add(name);
+    return name;
+  }
+
+  for (let i = 0; i < 10; i++) {
+    const user = getRandomUniqueUsername();
+    if (!user) break; // all usernames used
+    const review = reviews[Math.floor(Math.random() * reviews.length)];
+    const stars = '⭐️⭐️⭐️⭐️⭐️';
+    const reviewElement = document.createElement('div');
+    reviewElement.classList.add('review');
+    reviewElement.innerHTML = `
+      <p><strong>${user}</strong> <span>${stars}</span></p>
+      <p>${review}</p>
+    `;
+    reviewContainer.appendChild(reviewElement);
+  }
+  </script>
+
+</body>
+</html>
